@@ -1,0 +1,13 @@
+infrastructureDefinition:
+  name: new-deployment
+  identifier: newdeployment
+  orgIdentifier: default
+  projectIdentifier: testgcp
+  environmentRef: dev1
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: gkeconnector
+    namespace: default
+    releaseName: release-<+INFRA_KEY_SHORT_ID>
+  allowSimultaneousDeployments: false
