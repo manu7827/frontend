@@ -1,0 +1,8 @@
+environment:
+  name: dev1
+  identifier: dev1
+  description: ""
+  tags: {}
+  type: PreProduction
+  orgIdentifier: default
+  projectIdentifier: testgcp
