@@ -34,3 +34,43 @@ pipeline:
                     repo: manu7827/harness-build-images
                     tags:
                       - frontend1
+    - stage:
+        name: frontend-deploy
+        identifier: frontenddeploy
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: frontendservice
+          environment:
+            environmentRef: dev1
+            gitBranch: main
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: newdeployment
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  timeout: 10m
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: false
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  timeout: 10m
+                  spec:
+                    pruningEnabled: false
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
